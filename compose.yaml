@@ -1,9 +1,9 @@
-name: ${COMPOSE_PROJECT_NAME:?COMPOSE_PROJECT_NAME wajib diisi di .env}
+name: ${COMPOSE_PROJECT_NAME:?Set COMPOSE_PROJECT_NAME in .env}
 
 services:
   redis:
-    image: ${REDIS_IMAGE:?REDIS_IMAGE wajib diisi di .env}
-    container_name: ${REDIS_CONTAINER_NAME:?REDIS_CONTAINER_NAME wajib diisi di .env}
+    image: ${REDIS_IMAGE:?Set REDIS_IMAGE in .env}
+    container_name: ${REDIS_CONTAINER_NAME:?Set REDIS_CONTAINER_NAME in .env}
     restart: unless-stopped
     command:
       - redis-server
@@ -25,144 +25,58 @@ services:
       - omniroute
 
   omniroute:
-    image: ${OMNIROUTE_IMAGE:?OMNIROUTE_IMAGE wajib diisi di .env}
-    container_name: ${OMNIROUTE_CONTAINER_NAME:?OMNIROUTE_CONTAINER_NAME wajib diisi di .env}
+    image: ${OMNIROUTE_IMAGE:?Set OMNIROUTE_IMAGE in .env}
+    container_name: ${OMNIROUTE_CONTAINER_NAME:?Set OMNIROUTE_CONTAINER_NAME in .env}
     restart: unless-stopped
     init: true
     stop_grace_period: 40s
-
+    mem_limit: 4g
     env_file:
       - .env
-
-    # Variabel penting ditulis eksplisit agar hasil `docker compose config`
-    # menunjukkan konfigurasi yang benar-benar diteruskan ke container.
     environment:
-      DATA_DIR: ${DATA_DIR:?DATA_DIR wajib diisi di .env}
-      REDIS_URL: ${REDIS_URL:?REDIS_URL wajib diisi di .env}
-
-      PORT: ${PORT:?PORT wajib diisi di .env}
-      DASHBOARD_PORT: ${DASHBOARD_PORT:?DASHBOARD_PORT wajib diisi di .env}
-      API_PORT: ${API_PORT:?API_PORT wajib diisi di .env}
-      API_HOST: ${API_HOST:?API_HOST wajib diisi di .env}
-
-      OMNIROUTE_ENABLE_LIVE_WS: ${OMNIROUTE_ENABLE_LIVE_WS:?OMNIROUTE_ENABLE_LIVE_WS wajib diisi di .env}
-      LIVE_WS_PORT: ${LIVE_WS_PORT:?LIVE_WS_PORT wajib diisi di .env}
-      LIVE_WS_HOST: ${LIVE_WS_HOST:?LIVE_WS_HOST wajib diisi di .env}
-      LIVE_WS_ALLOWED_ORIGINS: ${LIVE_WS_ALLOWED_ORIGINS:?LIVE_WS_ALLOWED_ORIGINS wajib diisi di .env}
-      NEXT_PUBLIC_LIVE_WS_PUBLIC_URL: ${NEXT_PUBLIC_LIVE_WS_PUBLIC_URL:?NEXT_PUBLIC_LIVE_WS_PUBLIC_URL wajib diisi di .env}
-
-      OMNIROUTE_MEMORY_MB: ${OMNIROUTE_MEMORY_MB:?OMNIROUTE_MEMORY_MB wajib diisi di .env}
-      QDRANT_ENABLED: ${QDRANT_ENABLED:?QDRANT_ENABLED wajib diisi di .env}
-      BIFROST_ENABLED: ${BIFROST_ENABLED:?BIFROST_ENABLED wajib diisi di .env}
-
-      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET wajib diisi di .env}
-      API_KEY_SECRET: ${API_KEY_SECRET:?API_KEY_SECRET wajib diisi di .env}
-      STORAGE_ENCRYPTION_KEY: ${STORAGE_ENCRYPTION_KEY:?STORAGE_ENCRYPTION_KEY wajib diisi di .env}
-      STORAGE_ENCRYPTION_KEY_VERSION: ${STORAGE_ENCRYPTION_KEY_VERSION:?STORAGE_ENCRYPTION_KEY_VERSION wajib diisi di .env}
-      OMNIROUTE_WS_BRIDGE_SECRET: ${OMNIROUTE_WS_BRIDGE_SECRET:?OMNIROUTE_WS_BRIDGE_SECRET wajib diisi di .env}
-      INITIAL_PASSWORD: ${INITIAL_PASSWORD:?INITIAL_PASSWORD wajib diisi di .env}
-      DISABLE_SQLITE_AUTO_BACKUP: ${DISABLE_SQLITE_AUTO_BACKUP:?DISABLE_SQLITE_AUTO_BACKUP wajib diisi di .env}
-
+      DATA_DIR: ${DATA_DIR:?Set DATA_DIR in .env}
+      REDIS_URL: ${REDIS_URL:?Set REDIS_URL in .env}
+      PORT: ${DASHBOARD_PORT:?Set DASHBOARD_PORT in .env}
+      DASHBOARD_PORT: ${DASHBOARD_PORT:?Set DASHBOARD_PORT in .env}
+      API_PORT: ${API_PORT:?Set API_PORT in .env}
+      API_HOST: ${API_HOST:?Set API_HOST in .env}
+      OMNIROUTE_ENABLE_LIVE_WS: ${OMNIROUTE_ENABLE_LIVE_WS:?Set OMNIROUTE_ENABLE_LIVE_WS in .env}
+      LIVE_WS_PORT: ${LIVE_WS_PORT:?Set LIVE_WS_PORT in .env}
+      LIVE_WS_HOST: ${LIVE_WS_HOST:?Set LIVE_WS_HOST in .env}
+      LIVE_WS_ALLOWED_ORIGINS: ${LIVE_WS_ALLOWED_ORIGINS:?Set LIVE_WS_ALLOWED_ORIGINS in .env}
+      NEXT_PUBLIC_LIVE_WS_PUBLIC_URL: ${NEXT_PUBLIC_LIVE_WS_PUBLIC_URL:?Set NEXT_PUBLIC_LIVE_WS_PUBLIC_URL in .env}
+      OMNIROUTE_MEMORY_MB: ${OMNIROUTE_MEMORY_MB:?Set OMNIROUTE_MEMORY_MB in .env}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      API_KEY_SECRET: ${API_KEY_SECRET:?Set API_KEY_SECRET in .env}
+      STORAGE_ENCRYPTION_KEY: ${STORAGE_ENCRYPTION_KEY:?Set STORAGE_ENCRYPTION_KEY in .env}
+      STORAGE_ENCRYPTION_KEY_VERSION: ${STORAGE_ENCRYPTION_KEY_VERSION:?Set STORAGE_ENCRYPTION_KEY_VERSION in .env}
+      OMNIROUTE_WS_BRIDGE_SECRET: ${OMNIROUTE_WS_BRIDGE_SECRET:?Set OMNIROUTE_WS_BRIDGE_SECRET in .env}
+      INITIAL_PASSWORD: ${INITIAL_PASSWORD:?Set INITIAL_PASSWORD in .env}
+      DISABLE_SQLITE_AUTO_BACKUP: ${DISABLE_SQLITE_AUTO_BACKUP:?Set DISABLE_SQLITE_AUTO_BACKUP in .env}
     ports:
-      - "${DASHBOARD_PORT:?DASHBOARD_PORT wajib diisi di .env}:${DASHBOARD_PORT:?DASHBOARD_PORT wajib diisi di .env}"
-      - "${API_PORT:?API_PORT wajib diisi di .env}:${API_PORT:?API_PORT wajib diisi di .env}"
-      - "${LIVE_WS_PORT:?LIVE_WS_PORT wajib diisi di .env}:${LIVE_WS_PORT:?LIVE_WS_PORT wajib diisi di .env}"
-
-    # Bind mount ke filesystem Linux WSL. storage.sqlite di /app/data
-    # akan tersimpan sebagai <folder proyek>/data/storage.sqlite.
+      - "${DASHBOARD_PORT}:${DASHBOARD_PORT}"
+      - "${API_PORT}:${API_PORT}"
+      - "${LIVE_WS_PORT}:${LIVE_WS_PORT}"
     volumes:
       - type: bind
-        source: ${HOST_DATA_DIR:?HOST_DATA_DIR wajib diisi di .env}
-        target: ${DATA_DIR:?DATA_DIR wajib diisi di .env}
+        source: ${HOST_DATA_DIR:?Set HOST_DATA_DIR in .env}
+        target: ${DATA_DIR:?Set DATA_DIR in .env}
         bind:
           create_host_path: false
-
     depends_on:
       redis:
         condition: service_healthy
-
     healthcheck:
       test: ["CMD", "node", "healthcheck.mjs"]
       interval: 30s
       timeout: 5s
       retries: 5
       start_period: 30s
-
     networks:
       - omniroute
-
-  qdrant:
-    image: ${QDRANT_IMAGE:?QDRANT_IMAGE wajib diisi di .env}
-    container_name: ${QDRANT_CONTAINER_NAME:?QDRANT_CONTAINER_NAME wajib diisi di .env}
-    restart: unless-stopped
-    profiles: ["memory"]
-    volumes:
-      - qdrant-data:/qdrant/storage
-    ports:
-      - "${QDRANT_PORT:?QDRANT_PORT wajib diisi di .env}:6333"
-      - "${QDRANT_GRPC_PORT:?QDRANT_GRPC_PORT wajib diisi di .env}:6334"
-    environment:
-      QDRANT__SERVICE__GRPC_PORT: 6334
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:6333/readyz"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    networks:
-      - omniroute
-
-  bifrost:
-    image: ${BIFROST_IMAGE:?BIFROST_IMAGE wajib diisi di .env}
-    container_name: ${BIFROST_CONTAINER_NAME:?BIFROST_CONTAINER_NAME wajib diisi di .env}
-    restart: unless-stopped
-    profiles: ["bifrost"]
-    volumes:
-      - bifrost-data:/data
-    ports:
-      - "${BIFROST_PORT:?BIFROST_PORT wajib diisi di .env}:8080"
-    environment:
-      BIFROST_LOG_LEVEL: ${BIFROST_LOG_LEVEL:?BIFROST_LOG_LEVEL wajib diisi di .env}
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8080/v1/models"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 15s
-    networks:
-      - omniroute
-
-  cliproxyapi:
-    image: ${CLIPROXYAPI_IMAGE:?CLIPROXYAPI_IMAGE wajib diisi di .env}
-    container_name: ${CLIPROXYAPI_CONTAINER_NAME:?CLIPROXYAPI_CONTAINER_NAME wajib diisi di .env}
-    restart: unless-stopped
-    profiles: ["cliproxyapi"]
-    ports:
-      - "${CLIPROXYAPI_PORT:?CLIPROXYAPI_PORT wajib diisi di .env}:8317"
-    volumes:
-      - cliproxyapi-data:/root/.cli-proxy-api
-    environment:
-      PORT: 8317
-      HOST: 0.0.0.0
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8317/v1/models"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    networks:
-      - omniroute
-
 networks:
   omniroute:
-    name: ${OMNIROUTE_NETWORK_NAME:?OMNIROUTE_NETWORK_NAME wajib diisi di .env}
-
+    name: ${OMNIROUTE_NETWORK_NAME:?Set OMNIROUTE_NETWORK_NAME in .env}
 volumes:
   redis-data:
-    name: ${REDIS_VOLUME_NAME:?REDIS_VOLUME_NAME wajib diisi di .env}
-  qdrant-data:
-    name: ${QDRANT_VOLUME_NAME:?QDRANT_VOLUME_NAME wajib diisi di .env}
-  bifrost-data:
-    name: ${BIFROST_VOLUME_NAME:?BIFROST_VOLUME_NAME wajib diisi di .env}
-  cliproxyapi-data:
-    name: ${CLIPROXYAPI_VOLUME_NAME:?CLIPROXYAPI_VOLUME_NAME wajib diisi di .env}
+    name: ${REDIS_VOLUME_NAME:?Set REDIS_VOLUME_NAME in .env}
