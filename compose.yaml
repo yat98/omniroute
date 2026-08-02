@@ -34,6 +34,7 @@ services:
     env_file:
       - .env
     environment:
+      OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT: ${OMNIROUTE_CHAT_MAX_HEAVY_IN_FLIGHT:-4}
       DATA_DIR: ${DATA_DIR:?Set DATA_DIR in .env}
       REDIS_URL: ${REDIS_URL:?Set REDIS_URL in .env}
       PORT: ${DASHBOARD_PORT:?Set DASHBOARD_PORT in .env}
